@@ -1,0 +1,183 @@
+{% extends '@SmartAdmin/Base/base.html.twig' %}
+{% block title %}{{ getConfigVar('feature toggle') }}{% endblock %}
+{% block content %}
+    <section id="widget-grid">
+        <article class="col-sm-12 col-md-12 col-lg-8">
+            <form action="{{ url('feature_toggle') }}" method="post">
+                <div class="jarviswidget jarviswidget-sortable"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-fullscreenbutton="false"
+                     role="widget">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header role="heading">
+                        <div class="jarviswidget-ctrls" role="menu">
+                            <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>
+                        </div>
+                        <span class="widget-icon"> <i class="fa fa-gears"></i> </span>
+                        <h2>{{ getConfigVar('feature toggle') }}</h2>
+                        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body smart-form">
+                            <h3>Funktionen</h3>
+                            {% for feature in features %}
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col col-6">
+                                                    <b>{{ feature.featurename }}</b>
+                                                </div>
+                                                <div class="col col-2">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" value="1" name="features[{{ feature.id }}]" {% if feature.active %} checked{% endif %}/>
+                                                        <i></i>Aktiv&nbsp;</label>
+                                                </div>
+                                                <div class="col col-2">
+                                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" value="1" name="public[{{ feature.id }}]" {% if feature.public %}checked{% endif %}/>
+                                                            <i></i>{{ getConfigVar('featuretoggle public') }}
+                                                        </label>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col col-2">
+                                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                                        <a href="javascript:void(0);"
+                                                           data-target-url="{{ url('feature_toggle_delete', {'id':feature.getId}) }}"
+                                                           data-message-title="{{ getConfigVar('smartadmin common delete') }}"
+                                                           data-message-content="{{ getConfigVar('smartadmin common delete question') }}"
+                                                           data-button-yes="Ja"
+                                                           data-button-no="Nein"
+                                                           title="{{ getConfigVar('smartadmin common delete') }}"
+                                                           class="custom-delete-btn" rel="tooltip">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col col-8">
+                                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                                        <label for="feature_{{ feature.id }}">
+                                                            {{ getConfigVar('featuretoggle description') }}
+                                                        </label>
+                                                        <textarea id="feature_{{ feature.id }}" name="description[{{ feature.id }}]" class="form-control" rows="3">{{ feature.description }}</textarea>
+                                                    {% else %}
+                                                        <div class="note">{{ feature.description }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            {% endfor %}
+                            <footer>
+                                <button type="submit" class="btn btn-primary">{{ getConfigVar('smartadmin common save all') }}</button><br>
+                            </footer>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                </div>
+            </form>
+        </article>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <article class="col-sm-12 col-md-12 col-lg-4">
+                <div class="jarviswidget jarviswidget-sortable"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-fullscreenbutton="false"
+                     role="widget">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header role="heading">
+                        <div class="jarviswidget-ctrls" role="menu">
+                            <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>
+                        </div>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>Optionen</h2>
+                        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body smart-form">
+
+                            <h3>Neues Feature hinzufügen</h3>
+                            <form action="{{ url('feature_toggle_add') }}" method="post">
+                                <fieldset>
+                                    <div class="row">
+                                        <section>
+                                            <div class="form-group">
+                                                <label for="feature_name">Feature Name</label>
+                                                <input class="form-control" type="text" id="feature_name" name="feature_name" required>
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <div class="form-group">
+                                                <label for="feature_description">Feature Beschreibung</label>
+                                                <textarea id="feature_description" name="feature_description" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <div class="form-group">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="feature_public" value="1"/>
+                                                    <i></i>Öffentlich
+                                                </label>
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <div class="form-group">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="feature_active" value="1"/>
+                                                    <i></i>Feature eingeschaltet
+                                                </label>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button type="submit" class="btn btn-primary">Speichern</button>
+                                </footer>
+                            </form>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                </div>
+            </article>
+        {% endif %}
+    </section>
+
+{% endblock %}

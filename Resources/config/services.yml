@@ -1,0 +1,20 @@
+services:
+  featuretoggle.repository:
+    class: FeatureToggleBundle\Entity\FeatureToggleRepository
+    factory: ["@doctrine.orm.default_entity_manager", "getRepository"]
+    arguments: ["FeatureToggleBundle:FeatureToggle"]
+  featuretoggle.twig:
+    class: FeatureToggleBundle\Twig\FeatureToggleExtension
+    arguments:
+      - "@featuretoggle.repository"
+    tags:
+      - { name: twig.extension }
+  feature_toggle.controller:
+    class: FeatureToggleBundle\Controller\Backend\FeatureToggleController
+    arguments:
+      - "@featuretoggle.repository"
+      - "@router.default"
+      - "@session"
+      - "@twig"
+      - "@doctrine.orm.default_entity_manager"
+      - "@security.authorization_checker"
