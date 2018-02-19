@@ -1,5 +1,6 @@
 {% extends '@SmartAdmin/Base/base.html.twig' %}
-{% block title %}{{ getConfigVar('feature toggle') }}{% endblock %}
+{% trans_default_domain 'backend' %}
+{% block title %}{% trans %}Feature Toggle{% endtrans %}{% endblock %}
 {% block content %}
     <section id="widget-grid">
         <article class="col-sm-12 col-md-12 col-lg-8">
@@ -24,7 +25,7 @@
                             <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>
                         </div>
                         <span class="widget-icon"> <i class="fa fa-gears"></i> </span>
-                        <h2>{{ getConfigVar('feature toggle') }}</h2>
+                        <h2>{% trans %}Feature Toggle{% endtrans %}</h2>
                         <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
                     <!-- widget div-->
                     <div role="content">
@@ -35,7 +36,7 @@
                         <!-- end widget edit box -->
                         <!-- widget content -->
                         <div class="widget-body smart-form">
-                            <h3>Funktionen</h3>
+                            <h3>{% trans %}Funktionen{% endtrans %}</h3>
                             {% for feature in features %}
                                 <fieldset>
                                     <section>
@@ -61,11 +62,11 @@
                                                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                                                         <a href="javascript:void(0);"
                                                            data-target-url="{{ url('feature_toggle_delete', {'id':feature.getId}) }}"
-                                                           data-message-title="{{ getConfigVar('smartadmin common delete') }}"
-                                                           data-message-content="{{ getConfigVar('smartadmin common delete question') }}"
-                                                           data-button-yes="Ja"
-                                                           data-button-no="Nein"
-                                                           title="{{ getConfigVar('smartadmin common delete') }}"
+                                                           data-message-title="{% trans %}Entfernen{% endtrans %}"
+                                                           data-message-content="{% trans %}Diese Aktion kann nicht rückgängig gemacht werden!{% endtrans %}"
+                                                           data-button-yes="{% trans %}Ja{% endtrans %}"
+                                                           data-button-no="{% trans %}Nein{% endtrans %}"
+                                                           title="{% trans %}Entfernen{% endtrans %}"
                                                            class="custom-delete-btn" rel="tooltip">
                                                             <i class="fa fa-trash-o"></i>
                                                         </a>
@@ -78,7 +79,7 @@
                                                 <div class="col col-8">
                                                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                                                         <label for="feature_{{ feature.id }}">
-                                                            {{ getConfigVar('featuretoggle description') }}
+                                                            {% trans %}Beschreibung{% endtrans %}
                                                         </label>
                                                         <textarea id="feature_{{ feature.id }}" name="description[{{ feature.id }}]" class="form-control" rows="3">{{ feature.description }}</textarea>
                                                     {% else %}
@@ -91,7 +92,7 @@
                                 </fieldset>
                             {% endfor %}
                             <footer>
-                                <button type="submit" class="btn btn-primary">{{ getConfigVar('smartadmin common save all') }}</button><br>
+                                <button type="submit" class="btn btn-primary">{% trans %}Alle speichern{% endtrans %}</button><br>
                             </footer>
                         </div>
                         <!-- end widget content -->
