@@ -54,7 +54,7 @@
                                                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                                                         <label class="checkbox">
                                                             <input type="checkbox" value="1" name="public[{{ feature.id }}]" {% if feature.public %}checked{% endif %}/>
-                                                            <i></i>{{ getConfigVar('featuretoggle public') }}
+                                                            <i></i>{% trans %}Öffentlich{% endtrans %}
                                                         </label>
                                                     {% endif %}
                                                 </div>
