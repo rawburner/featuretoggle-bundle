@@ -11,6 +11,7 @@ services:
       - { name: twig.extension }
   feature_toggle.controller:
     class: FeatureToggleBundle\Controller\Backend\FeatureToggleController
+    public: true
     arguments:
       - "@featuretoggle.repository"
       - "@router.default"
