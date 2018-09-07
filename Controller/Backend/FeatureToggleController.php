@@ -84,21 +84,16 @@ class FeatureToggleController
      */
     public function featureToggleAction(Request $request){
         if($request->request->has('features')){
-            foreach ($request->request->get('features') as $id => $feature){
-                /** @var FeatureToggle $featureToggle */
-                $featureToggle = $this->toggleRepository->find($id);
-                if(!$featureToggle){
-                    continue;
-                }
-                $featureToggle->setActive($request->request->get('features')[$id]);
+            foreach ($this->entityManager->getRepository(FeatureToggle::class)->findAll() as $featureToggle){
+                $featureToggle->setActive(isset($request->request->get('features')[$featureToggle->getId()]));
+
                 if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')){
-                    $featureToggle->setDescription($request->request->get('description')[$id]);
-                    $featureToggle->setPublic($request->request->get('public')[$id]);
+                    $featureToggle->setDescription($request->request->get('description')[$featureToggle->getId()]);
+                    $featureToggle->setPublic(isset($request->request->get('public')[$featureToggle->getId()]));
                 }
-                $this->entityManager->persist($featureToggle);
             }
-            $this->session->getFlashBag()->add('notice','Features aktualisiert');
             $this->entityManager->flush();
+            $this->session->getFlashBag()->add('notice','Features aktualisiert');
         }
         if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')){
             $filter = [];
