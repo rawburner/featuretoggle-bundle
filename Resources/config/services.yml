@@ -2,6 +2,6 @@ services:
   featuretoggle.twig:
     class: FeatureToggleBundle\Twig\FeatureToggleExtension
     arguments:
-      - "@featuretoggle.repository"
+      - "@doctrine.orm.default_entity_manager"
     tags:
       - { name: twig.extension }

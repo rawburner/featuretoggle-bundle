@@ -2,7 +2,8 @@
 
 namespace FeatureToggleBundle\Twig;
 
-use FeatureToggleBundle\Entity\FeatureToggleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use FeatureToggleBundle\Entity\FeatureToggle;
 
 /**
  * Class FeatureToggleExtension
@@ -11,19 +12,19 @@ use FeatureToggleBundle\Entity\FeatureToggleRepository;
 class FeatureToggleExtension extends \Twig_Extension
 {
     /**
-     * @var FeatureToggleRepository
+     * @var EntityManagerInterface
      */
-    private $featureToggleRepo;
+    protected $entityManager;
 
     /**
      * FeatureToggleExtension constructor.
-     * @param FeatureToggleRepository $featureToggleRepository
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        FeatureToggleRepository $featureToggleRepository
+        EntityManagerInterface $entityManager
     )
     {
-        $this->featureToggleRepo = $featureToggleRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,7 +44,7 @@ class FeatureToggleExtension extends \Twig_Extension
      * @return bool
      */
     public function isFeatureEnabled($feature_name){
-        return $this->featureToggleRepo->isEnabled($feature_name);
+        return $this->entityManager->getRepository(FeatureToggle::class)->isEnabled($feature_name);
     }
 
 }
