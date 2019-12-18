@@ -4,12 +4,14 @@ namespace FeatureToggleBundle\Twig;
 
 use Doctrine\ORM\EntityManagerInterface;
 use FeatureToggleBundle\Entity\FeatureToggle;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Class FeatureToggleExtension
  * @package FeatureToggleBundle\Twig
  */
-class FeatureToggleExtension extends \Twig_Extension
+class FeatureToggleExtension extends AbstractExtension
 {
     /**
      * @var EntityManagerInterface
@@ -34,7 +36,7 @@ class FeatureToggleExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('is_feature_enabled', [$this, 'isFeatureEnabled'])
+            new TwigFunction('is_feature_enabled', [$this, 'isFeatureEnabled'])
         ];
     }
 
